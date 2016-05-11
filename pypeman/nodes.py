@@ -65,6 +65,9 @@ class BaseNode:
                 payload=deepcopy(msg.payload),
             )
 
+        if self.passthrough:
+            old_msg = msg.copy()
+
         result = self.run(msg)
 
         if isinstance(result, asyncio.Future):
@@ -77,6 +80,8 @@ class BaseNode:
                     result = yield from self.next_node.handle(res)
                     # TODO Here result is last value returned. Is it a good idea ?
             else:
+                if self.passthrough:
+                    result = old_msg
                 result = yield from self.next_node.handle(result)
 
         if self.store_output_as:
@@ -84,8 +89,6 @@ class BaseNode:
                 meta=dict(result.meta),
                 payload=deepcopy(result.payload),
             )
-
-        result = msg if self.passthrough else result
 
         return result
 
