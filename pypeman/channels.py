@@ -65,7 +65,6 @@ class BaseChannel:
         self.logger.debug('testing commit')
 
         self.next_node = None
-        self.backend = backend
 
         self.lock = asyncio.Lock(loop=self.loop)
 
