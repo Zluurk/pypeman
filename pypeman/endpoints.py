@@ -1,5 +1,8 @@
 import asyncio
 import sys
+import logging
+
+logger = logging.getLogger("pypeman.endpoints")
 
 all = []
 
@@ -32,7 +35,7 @@ class HTTPEndpoint(BaseEndpoint):
             logger.warning("Argument adress for endpoint is deprecated. 'address' argument will be ignored")
         else:
             self.address = address
-            
+
         self.port = port
 
     def import_modules(self):
